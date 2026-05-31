@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>كنيسة السيدة العذراء مريم — تل ابراس</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri+Quran&family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+/* ─── Variables ─── */
+:root {
+  --navy:   #07111f;
+  --deep:   #0b1c32;
+  --mid:    #122440;
+  --gold:   #c9a84c;
+  --gold2:  #e8c96a;
+  --ivory:  #f5f0e8;
+  --cream:  #ede7d8;
+  --white:  #ffffff;
+  --text:   #c8bfa8;
+  --muted:  #7a8a99;
+  --r:      20px;
+  --tr:     .45s cubic-bezier(.4,0,.2,1);
+}
+
+/* ─── Reset ─── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; font-size:16px; }
+
+body {
+  background: var(--ivory);
+  color: var(--deep);
+  font-family: 'Cairo', sans-serif;
+  overflow-x: hidden;
+  cursor: default;
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--navy); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* ══════════════════════════════════════════
+   NAVBAR
+══════════════════════════════════════════ */
+#navbar {
+  position: fixed;
+  top: 0; right: 0; left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+  height: 80px;
+  background: transparent;
+  transition: background var(--tr), height var(--tr), backdrop-filter var(--tr);
+}
+
+#navbar.scrolled {
+  background: rgba(7,17,31,.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  height: 68px;
+  border-bottom: 1px solid rgba(201,168,76,.15);
+}
+
+/* Logo */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+}
+
+.logo-ring {
+  position: relative;
+  width: 56px; height: 56px;
+  flex-shrink: 0;
+}
+
+.logo-ring::before {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--gold), transparent 40%, var(--gold) 60%, transparent);
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.logo-ring img {
+  position: relative;
+  z-index: 1;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--navy);
+}
+
+.logo-text h2 {
+  color: var(--white);
+  font-family: 'Amiri', serif;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.logo-text span {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: .5px;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,.75);
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: .3px;
+  transition: color var(--tr);
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.nav-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 0; height: 1.5px;
+  background: var(--gold);
+  transition: width var(--tr);
+}
+
+.nav-links a:hover { color: var(--gold); }
+.nav-links a:hover::after { width: 100%; }
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 6px;
+}
+
+.hamburger span {
+  display: block;
+  width: 26px; height: 2px;
+  background: var(--white);
+  border-radius: 2px;
+  transition: var(--tr);
+}
+
+.hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+.hamburger.open span:nth-child(2) { opacity: 0; }
+.hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+
+/* Mobile drawer */
+.mobile-drawer {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: rgba(7,17,31,.97);
+  backdrop-filter: blur(20px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--tr);
+}
+
+.mobile-drawer.open {
+  display: flex;
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-drawer a {
+  color: var(--white);
+  text-decoration: none;
+  font-family: 'Amiri', serif;
+  font-size: 28px;
+  transition: color var(--tr);
+}
+
+.mobile-drawer a:hover { color: var(--gold); }
+
+/* ══════════════════════════════════════════
+   HERO
+══════════════════════════════════════════ */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  background: var(--navy);
+}
+
+/* Ambient circles */
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.hero-bg::before,
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.hero-bg::before {
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+  top: -100px; left: -100px;
+  animation: drift1 12s ease-in-out infinite alternate;
+}
+
+.hero-bg::after {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(12,44,82,.6) 0%, transparent 70%);
+  bottom: -80px; right: -80px;
+  animation: drift2 10s ease-in-out infinite alternate;
+}
+
+@keyframes drift1 { to { transform: translate(60px, 40px); } }
+@keyframes drift2 { to { transform: translate(-40px, -60px); } }
+
+/* Church photo bg */
+.hero-photo {
+  position: absolute;
+  inset: 0;
+  background: url('church.jpg') center/cover no-repeat;
+  opacity: .08;
+}
+
+/* Gold grid pattern */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(201,168,76,.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(201,168,76,.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* Cross ornament */
+.cross-ornament {
+  position: absolute;
+  width: 400px; height: 400px;
+  opacity: .03;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+  background: conic-gradient(from 0deg, var(--gold), transparent 5%, var(--gold) 10%);
+  border-radius: 50%;
+  animation: spin 30s linear infinite;
+}
+
+/* Hero content */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 780px;
+  padding: 120px 24px 80px;
+}
+
+/* Ornamental line */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeUp .8s .2s forwards;
+}
+
+.ornament::before,
+.ornament::after {
+  content: '';
+  flex: 1;
+  max-width: 80px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold));
+}
+
+.ornament::after {
+  background: linear-gradient(90deg, var(--gold), transparent);
+}
+
+.ornament-cross {
+  color: var(--gold);
+  font-size: 18px;
+  letter-spacing: 8px;
+}
+
+/* Floating logo */
+.hero-logo {
+  width: 180px;
+  margin-bottom: 32px;
+  animation: float 5s ease-in-out infinite, fadeUp .9s .1s both;
+  filter: drop-shadow(0 0 40px rgba(201,168,76,.4));
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-16px); }
+}
+
+.hero h1 {
+  font-family: 'Amiri', serif;
+  font-size: clamp(38px, 6vw, 64px);
+  color: var(--white);
+  line-height: 1.55;
+  margin-bottom: 20px;
+  opacity: 0;
+  animation: fadeUp .9s .4s forwards;
+}
+
+.hero h1 .gold-word {
+  color: var(--gold);
+  position: relative;
+}
+
+.hero-sub {
+  color: var(--text);
+  font-size: clamp(15px, 2vw, 19px);
+  line-height: 2;
+  margin-bottom: 48px;
+  opacity: 0;
+  animation: fadeUp .9s .6s forwards;
+}
+
+.hero-cta {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp .9s .8s forwards;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform:translateY(28px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+/* Scroll indicator */
+.scroll-down {
+  position: absolute;
+  bottom: 36px; left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255,255,255,.3);
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  animation: fadeUp 1s 1.2s both;
+}
+
+.scroll-down .arrow {
+  width: 20px; height: 20px;
+  border-right: 1px solid rgba(201,168,76,.5);
+  border-bottom: 1px solid rgba(201,168,76,.5);
+  transform: rotate(45deg);
+  animation: bounce 1.6s infinite;
+}
+
+@keyframes bounce {
+  0%,100% { transform: rotate(45deg) translate(0,0); opacity:.4; }
+  50%      { transform: rotate(45deg) translate(5px,5px); opacity:1; }
+}
+
+/* ─── Buttons ─── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 32px;
+  border-radius: 50px;
+  font-family: 'Cairo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: var(--tr);
+  letter-spacing: .3px;
+}
+
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: var(--navy);
+  box-shadow: 0 6px 28px rgba(201,168,76,.35), inset 0 1px 0 rgba(255,255,255,.2);
+}
+
+.btn-gold:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(201,168,76,.5);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid rgba(201,168,76,.5);
+  color: var(--white);
+}
+
+.btn-outline:hover {
+  background: rgba(201,168,76,.1);
+  border-color: var(--gold);
+  transform: translateY(-3px);
+}
+
+/* ══════════════════════════════════════════
+   SHARED SECTION STYLES
+══════════════════════════════════════════ */
+.section { padding: 100px 6%; }
+
+.section-label {
+  display: inline-block;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-family: 'Amiri', serif;
+  font-size: clamp(32px, 4vw, 48px);
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.section-rule {
+  width: 60px; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent);
+  margin: 0 auto 55px;
+  border-radius: 2px;
+}
+
+.section-header { text-align: center; }
+
+/* ══════════════════════════════════════════
+   SERVICES / CARDS
+══════════════════════════════════════════ */
+.services-section {
+  background: var(--ivory);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.card {
+  background: var(--white);
+  border-radius: 24px;
+  padding: 42px 32px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  border: 1px solid rgba(0,0,0,.05);
+  transition: transform var(--tr), box-shadow var(--tr);
+
+  /* reveal */
+  opacity: 0;
+  transform: translateY(36px);
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: transform .6s cubic-bezier(.4,0,.2,1), box-shadow var(--tr), opacity .6s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold2), var(--gold));
+  background-size: 200%;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer { to { background-position: -200% center; } }
+
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 0%, rgba(201,168,76,.06), transparent 65%);
+  pointer-events: none;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,0,0,.12);
+}
+
+.card-icon {
+  width: 72px; height: 72px;
+  margin: 0 auto 22px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, rgba(201,168,76,.12), rgba(201,168,76,.05));
+  border: 1px solid rgba(201,168,76,.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30px;
+  color: var(--gold);
+  position: relative;
+  transition: var(--tr);
+}
+
+.card:hover .card-icon {
+  background: linear-gradient(135deg, rgba(201,168,76,.22), rgba(201,168,76,.1));
+  transform: scale(1.08);
+}
+
+.card h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--deep);
+  margin-bottom: 22px;
+}
+
+/* Schedule rows */
+.sched {
+  background: var(--ivory);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 22px;
+}
+
+.sched-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+
+.sched-row:last-child { border-bottom: none; }
+
+.sched-row .day {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.sched-row .time {
+  color: var(--deep);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+/* ══════════════════════════════════════════
+   STATS BAR
+══════════════════════════════════════════ */
+.stats-bar {
+  background: var(--navy);
+  padding: 60px 6%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.stats-bar::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(201,168,76,.04), transparent, rgba(201,168,76,.04));
+  pointer-events: none;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 30px 20px;
+  border-left: 1px solid rgba(201,168,76,.1);
+}
+
+.stat-item:last-child { border-left: none; }
+
+.stat-num {
+  font-family: 'Amiri', serif;
+  font-size: 52px;
+  color: var(--gold);
+  line-height: 1;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.stat-label {
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: .5px;
+}
+
+/* ══════════════════════════════════════════
+   HISTORY
+══════════════════════════════════════════ */
+.history-section {
+  background: var(--deep);
+  position: relative;
+  overflow: hidden;
+}
+
+.history-section::before {
+  content: '✝';
+  position: absolute;
+  font-size: 400px;
+  color: rgba(201,168,76,.025);
+  left: -60px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-family: serif;
+  pointer-events: none;
+  line-height: 1;
+}
+
+.history-section .section-title { color: var(--white); }
+
+.history-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.history-text p {
+  color: var(--text);
+  line-height: 2.1;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.history-text p:last-child { margin-bottom: 0; }
+
+.history-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(201,168,76,.15);
+  border-radius: 24px;
+  padding: 44px;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(6px);
+}
+
+.history-card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; left: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.hcard-icon {
+  font-size: 48px;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+.hcard-title {
+  font-family: 'Amiri', serif;
+  font-size: 26px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.hcard-body {
+  color: var(--text);
+  font-size: 15px;
+  line-height: 2;
+}
+
+/* ══════════════════════════════════════════
+   GALLERY
+══════════════════════════════════════════ */
+.gallery-section {
+  background: var(--cream);
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: 16px;
+}
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: 18px;
+  position: relative;
+  cursor: pointer;
+  background: var(--mid);
+}
+
+/* Feature items */
+.gallery-item:nth-child(1) { grid-column: span 2; grid-row: span 2; }
+.gallery-item:nth-child(6) { grid-column: span 2; }
+
+.gallery-item img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  min-height: 200px;
+  display: block;
+  transition: transform .6s cubic-bezier(.4,0,.2,1), filter .6s;
+}
+
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(7,17,31,.6), transparent 50%);
+  opacity: 0;
+  transition: opacity var(--tr);
+}
+
+.gallery-item:hover img { transform: scale(1.08); filter: brightness(1.05); }
+.gallery-item:hover::after { opacity: 1; }
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,.92);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox img {
+  max-width: 90vw;
+  max-height: 85vh;
+  border-radius: 12px;
+  object-fit: contain;
+  box-shadow: 0 0 60px rgba(0,0,0,.6);
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 24px; left: 24px;
+  color: var(--white);
+  font-size: 32px;
+  cursor: pointer;
+  opacity: .7;
+  transition: opacity var(--tr);
+  background: none;
+  border: none;
+  line-height: 1;
+}
+
+.lightbox-close:hover { opacity: 1; }
+
+/* ══════════════════════════════════════════
+   CONTACT
+══════════════════════════════════════════ */
+.contact-section {
+  background: var(--navy);
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-section::after {
+  content: '';
+  position: absolute;
+  bottom: 0; right: 0;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(201,168,76,.07), transparent 70%);
+  pointer-events: none;
+}
+
+.contact-section .section-title { color: var(--white); }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.contact-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(201,168,76,.12);
+  border-radius: 20px;
+  padding: 36px 28px;
+  text-align: center;
+  transition: var(--tr);
+  text-decoration: none;
+  display: block;
+  position: relative;
+  overflow: hidden;
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,.08), transparent);
+  opacity: 0;
+  transition: opacity var(--tr);
+}
+
+.contact-card:hover {
+  border-color: rgba(201,168,76,.4);
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,.3);
+}
+
+.contact-card:hover::before { opacity: 1; }
+
+.contact-icon {
+  font-size: 36px;
+  color: var(--gold);
+  margin-bottom: 16px;
+  display: block;
+}
+
+.contact-label {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.contact-value {
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* ══════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════ */
+footer {
+  background: #04090f;
+  text-align: center;
+  padding: 60px 20px 40px;
+  border-top: 1px solid rgba(201,168,76,.1);
+}
+
+.footer-logo {
+  width: 90px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 16px rgba(201,168,76,.3));
+}
+
+footer h3 {
+  font-family: 'Amiri', serif;
+  color: var(--gold);
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+footer p {
+  color: var(--text);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.footer-divider {
+  width: 60px; height: 1px;
+  background: rgba(201,168,76,.25);
+  margin: 20px auto;
+}
+
+.footer-copy {
+  color: rgba(255,255,255,.2);
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+/* ══════════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .history-inner { grid-template-columns: 1fr; gap: 40px; }
+  .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+  .gallery-item:nth-child(1) { grid-column: span 2; }
+  .gallery-item:nth-child(6) { grid-column: span 1; }
+}
+
+@media (max-width: 768px) {
+  .nav-links { display: none; }
+  .hamburger { display: flex; }
+
+  .section { padding: 70px 5%; }
+
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-item:nth-child(1) { grid-column: span 2; }
+  .gallery-item:nth-child(6) { grid-column: span 1; }
+
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .stat-item { border-left: none; border-bottom: 1px solid rgba(201,168,76,.1); }
+  .stat-item:nth-child(odd) { border-right: 1px solid rgba(201,168,76,.1); }
+}
+
+@media (max-width: 480px) {
+  .hero h1 { font-size: 32px; }
+  .gallery-grid { grid-template-columns: 1fr; }
+  .gallery-item:nth-child(1), .gallery-item:nth-child(6) { grid-column: span 1; }
+  .stats-bar { grid-template-columns: 1fr 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<nav id="navbar">
+
+  <a href="#home" class="logo">
+    <div class="logo-ring">
+      <img src="photo_2026-05-29_15-52-30.jpg" alt="شعار الكنيسة">
+    </div>
+    <div class="logo-text">
+      <h2>كنيسة السيدة العذراء مريم</h2>
+      <span>تل ابراس — القوصية</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#home">الرئيسية</a></li>
+    <li><a href="#services">الخدمات</a></li>
+    <li><a href="#history">التاريخ</a></li>
+    <li><a href="#gallery">الصور</a></li>
+    <li><a href="#contact">تواصل معنا</a></li>
+  </ul>
+
+  <button class="hamburger" id="hamburger" aria-label="القائمة">
+    <span></span><span></span><span></span>
+  </button>
+
+</nav>
+
+<!-- Mobile drawer -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <a href="#home" class="drawer-link">الرئيسية</a>
+  <a href="#services" class="drawer-link">الخدمات</a>
+  <a href="#history" class="drawer-link">التاريخ</a>
+  <a href="#gallery" class="drawer-link">الصور</a>
+  <a href="#contact" class="drawer-link">تواصل معنا</a>
+</div>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero" id="home">
+
+  <div class="hero-bg">
+    <div class="hero-photo"></div>
+    <div class="hero-grid"></div>
+    <div class="cross-ornament"></div>
+  </div>
+
+  <div class="hero-content">
+
+    <div class="ornament">
+      <span class="ornament-cross">✝ ✝ ✝</span>
+    </div>
+
+    <img src="sticker.webp" alt="شعار الكنيسة" class="hero-logo">
+
+    <h1>
+      كنيسة السيدة العذراء مريم<br>
+      <span class="gold-word"> تل ابراس </span>
+    </h1>
+
+    <p class="hero-sub">
+      موقع الكنيسة الرسمي لمتابعة القداسات والاجتماعات<br>
+      والبث المباشر والأنشطة الكنسية
+    </p>
+
+    <div class="hero-cta">
+      <a href="https://youtube.com/@virgen_mary" target="_blank" class="btn btn-gold">
+        <i class="fas fa-play-circle"></i>
+        البث المباشر
+      </a>
+      <a href="#services" class="btn btn-outline">
+        <i class="fas fa-church"></i>
+        مواعيد القداسات
+      </a>
+    </div>
+
+  </div>
+
+  <div class="scroll-down">
+    <div class="arrow"></div>
+    <span>اكتشف المزيد</span>
+  </div>
+
+</section>
+
+<!-- ══════════════════ SERVICES ══════════════════ -->
+<section class="services-section section" id="services">
+
+  <div class="section-header">
+    <span class="section-label">خدماتنا</span>
+    <h2 class="section-title">أقسام الكنيسة</h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="cards-grid">
+
+    <!-- القداسات -->
+    <div class="card" id="mass">
+      <div class="card-icon"><i class="fas fa-church"></i></div>
+      <h3>مواعيد القداسات</h3>
+      <div class="sched">
+        <div class="sched-row">
+          <span class="day">الجمعة</span>
+          <span class="time">7:00 صباحًا</span>
+        </div>
+        <div class="sched-row">
+          <span class="day">الأحد</span>
+          <span class="time">7:00 صباحًا</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- الاجتماعات -->
+    <div class="card" id="meetings">
+      <div class="card-icon"><i class="fas fa-book-bible"></i></div>
+      <h3>مواعيد الاجتماعات</h3>
+      <div class="sched">
+        <div class="sched-row">
+          <span class="day">الاجتماع العام</span>
+          <span class="time">الخميس — 6 م</span>
+        </div>
+        <div class="sched-row">
+          <span class="day">اجتماع السيدات</span>
+          <span class="time">السبت — 6 م</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- البث المباشر -->
+    <div class="card" id="live">
+      <div class="card-icon"><i class="fas fa-broadcast-tower"></i></div>
+      <h3>البث المباشر</h3>
+      <div class="sched">
+        <div class="sched-row">
+          <span class="day">متاح على يوتيوب</span>
+          <span class="time" style="color:#ff4444"><i class="fab fa-youtube"></i></span>
+        </div>
+        <div class="sched-row">
+          <span class="day">أيام القداسات</span>
+          <span class="time">مباشر</span>
+        </div>
+      </div>
+      <a href="https://youtube.com/@virgen_mary" target="_blank" class="btn btn-gold" style="width:100%;justify-content:center">
+        <i class="fab fa-youtube"></i>
+        شاهد البث
+      </a>
+    </div>
+
+    <!-- الأنشطة -->
+    <div class="card" id="activities">
+      <div class="card-icon"><i class="fas fa-users"></i></div>
+      <h3>الأنشطة الكنسية</h3>
+      <div class="sched">
+        <div class="sched-row">
+          <span class="day">فعاليات ومناسبات</span>
+          <span class="time">قريبًا</span>
+        </div>
+        <div class="sched-row">
+          <span class="day">تابعونا</span>
+          <span class="time">للمزيد</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- ══════════════════ HISTORY ══════════════════ -->
+<section class="history-section section" id="history">
+
+  <div class="section-header">
+    <span class="section-label" style="color:var(--gold)">إرثنا</span>
+    <h2 class="section-title" style="color:var(--white)">تاريخ الكنيسة</h2>
+    <div class="section-rule" style="background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:50px"></div>
+  </div>
+
+  <div class="history-inner">
+
+    <div class="history-text">
+      <p>
+
+      </p>
+      <p>
+
+      </p>
+      <p>
+
+      </p>
+    </div>
+
+    <div class="history-card">
+      <div class="hcard-icon"><i class="fas fa-cross"></i></div>
+      <h3 class="hcard-title"> رساله الكنيسه </h3>
+      <p class="hcard-body">
+
+      </p>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ══════════════════ GALLERY ══════════════════ -->
+<section class="gallery-section section" id="gallery">
+
+  <div class="section-header">
+    <span class="section-label">  لحظات من تاريخ الكنيسه</span>
+    <h2 class="section-title">  تاريخ الكنيسه في صور </h2>
+    <div class="section-rule"></div>
+  </div>
+
+  <div class="gallery-grid">
+    <div class="gallery-item"><img src="photo_2026-05-31_04-33-47.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-31_04-34-01.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-31_04-34-07.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-31_04-34-12.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-31_04-34-17.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-30_00-17-47.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-30_00-28-44.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-30_00-17-58.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-30_00-18-16.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-30_00-18-05.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-30_01-04-49.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-31_04-54-50.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+    <div class="gallery-item"><img src="photo_2026-05-31_18-07-22.jpg" alt="صورة الكنيسة" loading="lazy"></div>
+  </div>
+
+</section>
+
+<!-- Lightbox -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">✕</button>
+  <img src="" alt="" id="lbImg">
+</div>
+
+<!-- ══════════════════ CONTACT ══════════════════ -->
+<section class="contact-section section" id="contact">
+
+  <div class="section-header">
+    <span class="section-label" style="color:var(--gold)">تواصل معنا</span>
+    <h2 class="section-title" style="color:var(--white)">نسعد بتواصلكم</h2>
+    <div class="section-rule" style="background:linear-gradient(90deg,var(--gold),transparent);margin-bottom:50px"></div>
+  </div>
+
+  <div class="contact-grid">
+
+    <div class="contact-card">
+      <i class="fas fa-map-marker-alt contact-icon"></i>
+      <span class="contact-label">الموقع</span>
+      <span class="contact-value">القوصية / تل ابراس</span>
+    </div>
+
+    <a href="https://www.facebook.com/share/1E44Nu6Cb2/?mibextid=wwXIfr" target="_blank" class="contact-card">
+      <i class="fab fa-facebook contact-icon"></i>
+      <span class="contact-label">فيسبوك</span>
+      <span class="contact-value">صفحة الكنيسة الرسمية</span>
+    </a>
+
+    <a href="https://youtube.com/@virgen_mary" target="_blank" class="contact-card">
+      <i class="fab fa-youtube contact-icon" style="color:#ff4444"></i>
+      <span class="contact-label">يوتيوب</span>
+      <span class="contact-value">@virgen_mary</span>
+    </a>
+
+  </div>
+
+</section>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer>
+  <img src="sticker.webp" alt="شعار الكنيسة" class="footer-logo">
+  <h3>كنيسة السيدة العذراء مريم</h3>
+  <p>تل ابراس — القوصية</p>
+  <div class="footer-divider"></div>
+  <p class="footer-copy">جميع الحقوق محفوظة &copy; 2026</p>
+</footer>
+
+<!-- ══════════════════ JAVASCRIPT ══════════════════ -->
+<script>
+/* Navbar scroll */
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+/* Hamburger / mobile drawer */
+const hamburger = document.getElementById('hamburger');
+const drawer    = document.getElementById('mobileDrawer');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  drawer.classList.toggle('open');
+});
+
+drawer.querySelectorAll('.drawer-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    drawer.classList.remove('open');
+  });
+});
+
+/* Cards reveal with IntersectionObserver */
+const cards = document.querySelectorAll('.card');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 130);
+      revealObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.12 });
+cards.forEach(c => revealObserver.observe(c));
+
+/* Counter animation */
+const counters = document.querySelectorAll('.stat-num');
+const countObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const el     = entry.target;
+    const target = +el.dataset.target;
+    const step   = Math.max(1, Math.floor(target / 40));
+    let current  = 0;
+    const timer  = setInterval(() => {
+      current += step;
+      if (current >= target) { current = target; clearInterval(timer); }
+      el.textContent = current;
+    }, 40);
+    countObserver.unobserve(el);
+  });
+}, { threshold: 0.5 });
+counters.forEach(c => countObserver.observe(c));
+
+/* Gallery lightbox */
+const lightbox = document.getElementById('lightbox');
+const lbImg    = document.getElementById('lbImg');
+const lbClose  = document.getElementById('lbClose');
+
+document.querySelectorAll('.gallery-item img').forEach(img => {
+  img.addEventListener('click', () => {
+    lbImg.src = img.src;
+    lightbox.classList.add('open');
+  });
+});
+
+function closeLightbox() { lightbox.classList.remove('open'); }
+lbClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+
+</body>
+</html>
